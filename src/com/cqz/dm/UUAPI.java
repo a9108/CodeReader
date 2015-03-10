@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Logger;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedInputStream;
 
@@ -67,7 +68,7 @@ public class UUAPI {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		UUDLL.INSTANCE.uu_setTimeOut(20000);
 		byte[] resultBtye=new byte[100];		//为识别结果申请内存空间
 		int codeID=UUDLL.INSTANCE.uu_easyRecognizeBytesA(SOFTID, SOFTKEY, USERNAME, PASSWORD, by, by.length, codeType, resultBtye);
 		String resultResult = null;
@@ -84,6 +85,12 @@ public class UUAPI {
 		return rs;
 	}
 	
+	public static void reportError(String id){
+		try{
+			System.out.println("UUWISE\tReport Error\t"+id);
+			System.out.println(UUDLL.INSTANCE.uu_reportError(Integer.valueOf(id)));
+		}catch (Exception ex){}
+	}
 	
 	public static boolean checkAPI() throws IOException
 	{
